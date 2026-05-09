@@ -11,6 +11,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.a207383_yuanhaoran_lab3.data.EcoDatabase
+import com.example.a207383_yuanhaoran_lab3.data.EcoRepository
 import com.example.a207383_yuanhaoran_lab3.ui.*
 import com.example.a207383_yuanhaoran_lab3.ui.theme.A207383_YUANHAORAN_Lab3Theme
 
@@ -21,9 +23,17 @@ class MainActivity : ComponentActivity() {
             A207383_YUANHAORAN_Lab3Theme {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
-                    val myViewModel: EcoViewModel = viewModel()
 
-                    // Project 1 导航：包含 5 个页面 [cite: 30, 31]
+                    // 【Room 改造重点】：初始化数据库和 Repository
+                    val database = EcoDatabase.getDatabase(this)
+                    val repository = EcoRepository(database.ecoDao())
+
+                    // 利用我们写好的工厂，把 repository 传给 ViewModel
+                    val myViewModel: EcoViewModel = viewModel(
+                        factory = EcoViewModel.provideFactory(repository)
+                    )
+
+                    // 👇 完美保留你原本的导航结构，一字未改！ 👇
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") {
                             HomeScreen(
