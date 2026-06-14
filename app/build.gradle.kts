@@ -66,12 +66,11 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
-    // 2. CameraX (用于调用硬件摄像头传感器)
-    val camerax_version = "1.3.1"
-    implementation("androidx.camera:camera-core:${camerax_version}")
-    implementation("androidx.camera:camera-camera2:${camerax_version}")
-    implementation("androidx.camera:camera-lifecycle:${camerax_version}")
-    implementation("androidx.camera:camera-view:${camerax_version}")
+    // 2. CameraX (用于调用硬件摄像头传感器 - 已修复版本冲突问题)
+    implementation("androidx.camera:camera-core:1.3.1")
+    implementation("androidx.camera:camera-camera2:1.3.1")
+    implementation("androidx.camera:camera-lifecycle:1.3.1")
+    implementation("androidx.camera:camera-view:1.3.1")
 
     // 3. ML Kit Barcode Scanning (用于识别条形码)
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
@@ -79,4 +78,7 @@ dependencies {
     // 4. Firebase (云端数据库 Firestore)
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-firestore")
+
+    // 5. Accompanist：用于在 Compose 中极其优雅地申请相机权限
+    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
 }

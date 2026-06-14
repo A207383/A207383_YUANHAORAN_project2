@@ -1,11 +1,11 @@
-package com.example.a207383_yuanhaoran_lab3 // 👈 已经去掉了报错的 .ui
+package com.example.a207383_yuanhaoran_lab3
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Share // 👈 换成了绝对安全的 Share 图标
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -69,7 +69,7 @@ fun DetailScreen(viewModel: EcoViewModel, onDone: () -> Unit) {
 @Composable
 fun HistoryScreen(viewModel: EcoViewModel, onBack: () -> Unit) {
     val history by viewModel.historyList.collectAsState()
-    val context = LocalContext.current // 🔥 获取上下文，用于显示 Toast 提示
+    val context = LocalContext.current
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp).statusBarsPadding()) {
         TextButton(onClick = onBack) { Text("← Back") }
@@ -96,7 +96,7 @@ fun HistoryScreen(viewModel: EcoViewModel, onBack: () -> Unit) {
                             Toast.makeText(context, "Uploading to Cloud...", Toast.LENGTH_SHORT).show()
                         }) {
                             Icon(
-                                Icons.Default.Share, // 👈 换成了自带的 Share (分享) 图标
+                                Icons.Default.Share,
                                 contentDescription = "Share to Cloud",
                                 tint = MaterialTheme.colorScheme.secondary
                             )
