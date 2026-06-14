@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "12163608318",
+    "project_id": "a207383-ecoscannerp2",
+    "storage_bucket": "a207383-ecoscannerp2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:12163608318:android:7ee81c75db998425073faf",
+        "android_client_info": {
+          "package_name": "com.example.a207383_yuanhaoran_lab3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq5iyhtiwHU_WPGvFDtD2q44aVtIGsA30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

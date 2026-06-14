@@ -33,13 +33,16 @@ class MainActivity : ComponentActivity() {
                         factory = EcoViewModel.provideFactory(repository)
                     )
 
-                    // 👇 完美保留你原本的导航结构，一字未改！ 👇
+                    // 👇 导航结构更新：增加了云端和传感器页面 👇
                     NavHost(navController = navController, startDestination = "home") {
                         composable("home") {
                             HomeScreen(
                                 onStartScan = { navController.navigate("form") },
                                 onGoToSettings = { navController.navigate("settings") },
-                                onGoToHistory = { navController.navigate("history") }
+                                onGoToHistory = { navController.navigate("history") },
+                                // 新增两个跳转通道传给首页
+                                onGoToScanner = { navController.navigate("scanner") },
+                                onGoToCommunity = { navController.navigate("community") }
                             )
                         }
                         composable("form") {
@@ -60,6 +63,16 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("settings") {
                             SettingsScreen(onBack = { navController.popBackStack() })
+                        }
+
+                        // 🔥 [Project 2 新增]: 注册第 6 个页面 - 硬件传感器扫描页
+                        composable("scanner") {
+                            ScannerScreen(viewModel = myViewModel)
+                        }
+
+                        // 🔥 [Project 2 新增]: 注册第 7 个页面 - Firebase 云端社区页
+                        composable("community") {
+                            CommunityScreen(viewModel = myViewModel)
                         }
                     }
                 }

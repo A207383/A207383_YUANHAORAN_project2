@@ -1,20 +1,23 @@
-package com.example.a207383_yuanhaoran_lab3.ui
+package com.example.a207383_yuanhaoran_lab3 // 👈 已经去掉了报错的 .ui
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share // 👈 换成了绝对安全的 Share 图标
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.a207383_yuanhaoran_lab3.R
+import com.example.a207383_yuanhaoran_lab3.ui.EcoViewModel
 
-// 页面 2: Form Input (输入项目) [cite: 26]
+// 页面 2: Form Input (输入项目)
 @Composable
 fun FormScreen(viewModel: EcoViewModel, onSave: () -> Unit, onBack: () -> Unit) {
     var name by remember { mutableStateOf("") }
@@ -40,7 +43,7 @@ fun FormScreen(viewModel: EcoViewModel, onSave: () -> Unit, onBack: () -> Unit) 
     }
 }
 
-// 页面 3: Item Detail (查看刚才添加的项目) [cite: 28]
+// 页面 3: Item Detail (查看刚才添加的项目)
 @Composable
 fun DetailScreen(viewModel: EcoViewModel, onDone: () -> Unit) {
     val data by viewModel.uiState.collectAsState()
@@ -62,10 +65,12 @@ fun DetailScreen(viewModel: EcoViewModel, onDone: () -> Unit) {
     }
 }
 
-// 页面 4: Summary List (历史记录列表 - 核心共享数据展示) [cite: 29, 36]
+// 页面 4: Summary List (历史记录列表 - 核心共享数据展示)
 @Composable
 fun HistoryScreen(viewModel: EcoViewModel, onBack: () -> Unit) {
     val history by viewModel.historyList.collectAsState()
+    val context = LocalContext.current // 🔥 获取上下文，用于显示 Toast 提示
+
     Column(modifier = Modifier.fillMaxSize().padding(24.dp).statusBarsPadding()) {
         TextButton(onClick = onBack) { Text("← Back") }
         Text("My Added Items", fontSize = 24.sp, fontWeight = FontWeight.Bold)
@@ -74,9 +79,28 @@ fun HistoryScreen(viewModel: EcoViewModel, onBack: () -> Unit) {
         LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             items(history) { item ->
                 Card(modifier = Modifier.fillMaxWidth()) {
-                    Column(modifier = Modifier.padding(16.dp)) {
-                        Text(item.name, fontWeight = FontWeight.Bold)
-                        Text("Sustainability Score: ${item.score}", fontSize = 12.sp)
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 左边：历史记录信息
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(item.name, fontWeight = FontWeight.Bold)
+                            Text("Sustainability Score: ${item.score}", fontSize = 12.sp)
+                        }
+
+                        // 右边：Project 2 的核心按钮 - 点击将数据上传到 Firebase 云端
+                        IconButton(onClick = {
+                            viewModel.shareToCloud(item)
+                            Toast.makeText(context, "Uploading to Cloud...", Toast.LENGTH_SHORT).show()
+                        }) {
+                            Icon(
+                                Icons.Default.Share, // 👈 换成了自带的 Share (分享) 图标
+                                contentDescription = "Share to Cloud",
+                                tint = MaterialTheme.colorScheme.secondary
+                            )
+                        }
                     }
                 }
             }

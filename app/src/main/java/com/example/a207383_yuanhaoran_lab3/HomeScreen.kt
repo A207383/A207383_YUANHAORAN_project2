@@ -2,7 +2,6 @@ package com.example.a207383_yuanhaoran_lab3.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +25,13 @@ import com.example.a207383_yuanhaoran_lab3.R
 import com.example.a207383_yuanhaoran_lab3.data.DemoItem
 
 @Composable
-fun HomeScreen(onStartScan: () -> Unit, onGoToSettings: () -> Unit, onGoToHistory: () -> Unit) {
+fun HomeScreen(
+    onStartScan: () -> Unit,
+    onGoToSettings: () -> Unit,
+    onGoToHistory: () -> Unit,
+    onGoToScanner: () -> Unit,   // 🔥 新增：接收跳转到硬件扫描页的指令
+    onGoToCommunity: () -> Unit  // 🔥 新增：接收跳转到云端社区页的指令
+) {
     // 使用你提供的图片资源名
     val productList = listOf(
         DemoItem("Organic Cotton", "SDG 12 Impact: High", R.drawable.eco_leaf),
@@ -74,6 +79,35 @@ fun HomeScreen(onStartScan: () -> Unit, onGoToSettings: () -> Unit, onGoToHistor
                         modifier = Modifier.fillMaxWidth().height(150.dp),
                         contentScale = ContentScale.Crop
                     )
+                }
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // 🔥 新增的 Project 2 专属功能入口按钮
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    ElevatedButton(
+                        onClick = onGoToScanner,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Icon(Icons.Default.Search, contentDescription = "Scanner", modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Scanner")
+                    }
+
+                    ElevatedButton(
+                        onClick = onGoToCommunity,
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.elevatedButtonColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                    ) {
+                        Icon(Icons.Default.Share, contentDescription = "Community", modifier = Modifier.size(18.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("Community")
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
